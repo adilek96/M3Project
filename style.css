@@ -2,6 +2,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     width: 100vw;
+    margin: 0;
 }
 /* header style */
 header {
@@ -102,4 +103,27 @@ p {
     height: 102px;
     border:1px solid #C6C6C6;
     border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+input {
+    width: 95%;
+    height: 40px;
+    padding: 0;
+    border: none;
+    margin-left: 10px;
+    font-size: 36px;
+    font-weight: 700;
+    outline: none;
+}
+.left-currency, .right-currency {
+    padding-left: 10px;
+}
+
+
+/* ------ */
+.left-selected, .right-selected {
+    background-color: #833AE0; 
+    color: white !important;
 }
