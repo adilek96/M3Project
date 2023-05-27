@@ -1,31 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ProjectM3</title>
-    <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
     <main>
-        <header>
-            <img class="logo" src="./img/logo.svg" alt="logo">
-            <nav>
-                <ul>
-                    <li>BANK</li>
-                    <li>BUSINESS</li>
-                    <li>INVESTMENST</li>
-                    <li>INSURANCE</li>
-                    <li>MOBILE</li>
-                    <li>TRAVEL</li>
-                    <li>ENTERTAIMENT</li>
-                </ul>
-            </nav>
-            <button>LOG IN</button>
-        </header>
+      <header>
+        <img class="logo" src="./img/logo.svg" alt="logo" />
+        <nav>
+          <ul class="nav">
+            <li><a href="#">BANK</a></li>
+            <li><a href="#">BUSINESS</a></li>
+            <li><a href="#">INVESTMENST</a></li>
+            <li><a href="#">INSURANCE</a></li>
+            <li><a href="#">MOBILE</a></li>
+            <li><a href="#">TRAVEL</a></li>
+            <li><a href="#">ENTERTAIMENT</a></li>
+          </ul>
+        </nav>
+        <button>LOG IN</button>
+      </header>
+      <section>
+        <h1>Online Currency Converter</h1>
+        <div class="container-wrapper">
+          <div class="left-container">
+            <p>I have</p>
+            <ul class="select">
+              <li value="RUB">RUB</li>
+              <li value="USD">USD</li>
+              <li value="EUR">EUR</li>
+              <li value="GBP">GBP</li>
+            </ul>
+            <div class="input-wrapper">
+                <input class="left" type="text">
+                <p>1 RUB = 0.0135 USD</p>
+            </div>
+          </div>
+          <div class="right-container">
+            <p>I want to get</p>
+            <ul class="select">
+                <li value="RUB">RUB</li>
+                <li value="USD">USD</li>
+                <li value="EUR">EUR</li>
+                <li value="GBP">GBP</li>
+            </ul>
+            <div class="input-wrapper">
+            <input class="right" type="text">
+            <p>1 RUB = 0.0135 USD</p>
+            </div>
+            </select>
+          </div>
+        </div>
+      </section>
     </main>
     <script src="./script.js"></script>
-</body>
+  </body>
 </html>

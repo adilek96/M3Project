@@ -1,6 +1,105 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+body {
+    font-family: 'Roboto', sans-serif;
+    width: 100vw;
+}
+/* header style */
 header {
     background-color:  #F5F5F6;
     display: flex;
     justify-content: space-around;
+    height: 50px;
+}
+.logo {
+    align-self: center;
+    width: 89px;
+    height: 23px;
+}
+nav {
+    align-self: center;
+}
+.nav {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    width: 60vw;
+    font-size: 11px;
+}
+.nav li a {
+    color: #959BA4;
+    text-decoration: none;
+}
+.nav :first-child a {
+    color: black;
+}
+.nav li :hover {
+    color: black;
+}
+
+button {
+    background-color: #FFFFFF;
+    border: none;
+    width: 58px;
+    height: 33px;
+    border-radius: 4px;
+    align-self: center;
+    font-size: 11px;
+}
+/* ------- section ------ */
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+}
+h1 {
+    font-size: 36px;
+    line-height: 42px;
+    padding-left: 22%;
+}
+
+/* ------ container ------ */
+p {
+    font-size: 12px;
+    color: #9F9F9F;
+    margin: 0;
+}
+.left-container, .right-container {
+
+}
+
+.select {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    border:1px solid #C6C6C6;
+    border-radius: 3px;
+    width: 25vw;
+    padding: 0;
+}
+.select li {
+    width: 25%;
+    height: 30px;
+    color: #C6C6C6;
+    font-size: 12px;
+    border-right: 1px solid #C6C6C6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.select :last-child {
+    border: none;
+}
+.select  :hover{
+    background-color: #833AE0;
+    color: white;
+}
+/* ---------inputs------- */
+.input-wrapper {
+    width: 25vw;
+    height: 102px;
+    border:1px solid #C6C6C6;
+    border-radius: 3px;
 }
