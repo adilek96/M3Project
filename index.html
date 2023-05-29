@@ -26,7 +26,7 @@
       </header>
       <section>
         <h1>Online Currency Converter</h1>
-        <div class="container-wrapper">
+        <form class="container-wrapper">
           <div class="left-container">
             <p>I have</p>
             <ul class="left-select select">
@@ -36,25 +36,24 @@
               <li value="GBP">GBP</li>
             </ul>
             <div class="input-wrapper">
-                <input class="left" type="text">
-                <p class="left-currency">1 RUB = 0.0135 USD</p>
+              <input class="left" type="number" />
+              <p class="left-currency"></p>
             </div>
           </div>
           <div class="right-container">
             <p>I want to get</p>
-            <ul class="right-select select" >
-                <li value="RUB">RUB</li>
-                <li class="right-selected" value="USD">USD</li>
-                <li value="EUR">EUR</li>
-                <li value="GBP">GBP</li>
+            <ul class="right-select select">
+              <li value="RUB">RUB</li>
+              <li class="right-selected" value="USD">USD</li>
+              <li value="EUR">EUR</li>
+              <li value="GBP">GBP</li>
             </ul>
             <div class="input-wrapper">
-            <input class="right" type="text">
-            <p class="right-currency">1 RUB = 0.0135 USD</p>
+              <input class="right" type="number" />
+              <p class="right-currency"></p>
             </div>
-            </select>
           </div>
-        </div>
+        </form>
       </section>
     </main>
     <script src="./script.js"></script>
