@@ -36,7 +36,6 @@ nav {
 .nav li :hover {
     color: black;
 }
-
 button {
     background-color: #FFFFFF;
     border: none;
@@ -65,10 +64,6 @@ p {
     color: #9F9F9F;
     margin: 0;
 }
-.left-container, .right-container {
-
-}
-
 .select {
     list-style-type: none;
     display: flex;
@@ -89,7 +84,6 @@ p {
     align-items: center;
     cursor: pointer;
 }
-
 .select :last-child {
     border: none;
 }
@@ -120,8 +114,6 @@ input {
 .left-currency, .right-currency {
     padding-left: 10px;
 }
-
-
 /* ------ */
 .left-selected, .right-selected {
     background-color: #833AE0; 

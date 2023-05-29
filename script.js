@@ -28,21 +28,37 @@ rightSelect.forEach((element) => {
 // функция получающая курс с сервера АПИ
 // для левого контейнера
 const getcurrencyLeft = async () => {
-  const response = await fetch(
-    `https://api.exchangerate.host/latest?base=${leftSelectValueArr[0]}&symbols=${rightSelectValueArr[0]}`
-  );
-  const data = await response.json();
+  try {
+    const response = await fetch(
+      `https://api.exchangerate.host/latest?base=${leftSelectValueArr[0]}&symbols=${rightSelectValueArr[0]}`
+    );
+    const data = await response.json();
 
-  return data;
+    return data;
+  } catch (err) {
+    const errorMessage = document.createElement(`p`);
+    const parentElement = document.querySelector(`section`);
+    errorMessage.innerText = `${err}`;
+    errorMessage.style = `color:red;`;
+    parentElement.append(errorMessage);
+  }
 };
 // для правого контейнера
 const getcurrencyRight = async () => {
-  const response = await fetch(
-    `https://api.exchangerate.host/latest?base=${rightSelectValueArr[0]}&symbols=${leftSelectValueArr[0]}`
-  );
-  const data = await response.json();
+  try {
+    const response = await fetch(
+      `https://api.exchangerate.host/latest?base=${rightSelectValueArr[0]}&symbols=${leftSelectValueArr[0]}`
+    );
+    const data = await response.json();
 
-  return data;
+    return data;
+  } catch (err) {
+    const errorMessage = document.createElement(`p`);
+    const parentElement = document.querySelector(`section`);
+    errorMessage.innerText = `${err}`;
+    errorMessage.style = `color:red;`;
+    parentElement.append(errorMessage);
+  }
 };
 // далее записываю полученный курс в  колонки
 const select = document.querySelectorAll(`.select`);
@@ -63,6 +79,11 @@ function addingLeftCurrency() {
     leftCurrency.innerText = `1 ${leftSelectValueArr[0]} = ${Object.values(
       objValue
     )} ${rightSelectValueArr[0]}`;
+    // начальное значение для инпутов
+    const leftInput = document.querySelector(`.left`);
+    leftInput.value = `1`;
+    const rightInput = document.querySelector(`.right`);
+    rightInput.value = `${Object.values(objValue)}`;
   });
 }
 addingLeftCurrency();
@@ -83,12 +104,14 @@ const form = document.querySelectorAll(`form input`);
 const leftInput = document.querySelector(`.left`);
 const rightInput = document.querySelector(`.right`);
 form.forEach((element) => {
-  // element.addEventListener(`keypress`, (event) => {
-  //   if (key === ",") {
-  //     event.preventDefault(); // Блокируем ввод запятой
-  //     event.target.value += "."; // Добавляем точку в значение
-  //   }
+  // запрещаем вводить что либо кроме цифр,точки и запятой
+  element.addEventListener(`keydown`, (e) => {
+    if (!/^[0-9.,]$/.test(e.key) && e.key !== "Backspace") {
+      e.preventDefault();
+    }
   });
+  //---------------------------------------
+  // конвертация на инпуте
   element.addEventListener(`input`, (e) => {
     if (e.target == leftInput) {
       // если инпут ввода будет левым
@@ -103,7 +126,10 @@ form.forEach((element) => {
         leftInput.value = e.target.value * Object.values(objValue);
       });
     }
+    // меняем введенную пользователем запятую на точку
+    e.target.value = e.target.value.replace(",", ".");
   });
+  // конвертация на фокусе инпута
   element.addEventListener(`focus`, (e) => {
     if (e.target == leftInput) {
       // если инпут ввода будет левым

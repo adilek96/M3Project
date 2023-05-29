@@ -30,26 +30,36 @@
           <div class="left-container">
             <p>I have</p>
             <ul class="left-select select">
-              <li class="left-selected" value="RUB">RUB</li>
-              <li value="USD">USD</li>
-              <li value="EUR">EUR</li>
-              <li value="GBP">GBP</li>
+              <li class="left-selected">RUB</li>
+              <li>USD</li>
+              <li>EUR</li>
+              <li>GBP</li>
             </ul>
             <div class="input-wrapper">
-              <input class="left" type="number" />
+              <input
+                class="left"
+                type="text"
+                pattern="[0-9]+([.,][0-9]+)?"
+                inputmode="numeric"
+              />
               <p class="left-currency"></p>
             </div>
           </div>
           <div class="right-container">
             <p>I want to get</p>
             <ul class="right-select select">
-              <li value="RUB">RUB</li>
-              <li class="right-selected" value="USD">USD</li>
-              <li value="EUR">EUR</li>
-              <li value="GBP">GBP</li>
+              <li>RUB</li>
+              <li class="right-selected">USD</li>
+              <li>EUR</li>
+              <li>GBP</li>
             </ul>
             <div class="input-wrapper">
-              <input class="right" type="number" />
+              <input
+                class="right"
+                type="text"
+                pattern="[0-9]+([.,][0-9]+)?"
+                inputmode="numeric"
+              />
               <p class="right-currency"></p>
             </div>
           </div>
