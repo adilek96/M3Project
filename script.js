@@ -1,3 +1,6 @@
+const leftInput = document.querySelector(`.left`);
+const rightInput = document.querySelector(`.right`);
+const select = document.querySelectorAll(`.select`);
 // получаю данные списка выбора валют
 const leftSelect = document.querySelectorAll(`.left-select li`);
 const leftSelectValueArr = [`RUB`]; // массив с валютами выбранными пользователем: [0] элемент - последние что выбрал пользователь
@@ -25,12 +28,13 @@ rightSelect.forEach((element) => {
 });
 
 //------------------------------------
+
 // функция получающая курс с сервера АПИ
 // для левого контейнера
-const getcurrencyLeft = async () => {
+const getcurrency = async (a, b) => {
   try {
     const response = await fetch(
-      `https://api.exchangerate.host/latest?base=${leftSelectValueArr[0]}&symbols=${rightSelectValueArr[0]}`
+      `https://api.exchangerate.host/latest?base=${b}&symbols=${a}`
     );
     const data = await response.json();
 
@@ -38,30 +42,38 @@ const getcurrencyLeft = async () => {
   } catch (err) {
     const errorMessage = document.createElement(`p`);
     const parentElement = document.querySelector(`section`);
-    errorMessage.innerText = `${err}`;
+    errorMessage.innerText = `internet error`;
     errorMessage.style = `color:red;`;
     parentElement.append(errorMessage);
   }
 };
-// для правого контейнера
-const getcurrencyRight = async () => {
-  try {
-    const response = await fetch(
-      `https://api.exchangerate.host/latest?base=${rightSelectValueArr[0]}&symbols=${leftSelectValueArr[0]}`
-    );
-    const data = await response.json();
 
-    return data;
-  } catch (err) {
-    const errorMessage = document.createElement(`p`);
-    const parentElement = document.querySelector(`section`);
-    errorMessage.innerText = `${err}`;
-    errorMessage.style = `color:red;`;
-    parentElement.append(errorMessage);
-  }
-};
-// далее записываю полученный курс в  колонки
-const select = document.querySelectorAll(`.select`);
+// функции добавления курса в колонки
+// для левой
+const leftValue = []; // массив для сохранение значений валюты левой колонки
+function addingLeftCurrency() {
+  getcurrency(rightSelectValueArr[0], leftSelectValueArr[0]).then((value) => {
+    const objValue = Object.values(value.rates);
+    const leftCurrency = document.querySelector(`.left-currency`);
+    leftCurrency.innerText = `1 ${leftSelectValueArr[0]} = ${objValue} ${rightSelectValueArr[0]}`;
+    rightInput.value = leftInput.value * objValue;
+    leftValue.unshift(objValue);
+  });
+}
+addingLeftCurrency();
+
+// для правой
+const rightValue = []; // массив для сохранение значений валюты правой колонки
+function addingRightCurrency() {
+  getcurrency(leftSelectValueArr[0], rightSelectValueArr[0]).then((value) => {
+    const rightCurrency = document.querySelector(`.right-currency`);
+    const objValue = Object.values(value.rates);
+    rightCurrency.innerText = `1 ${rightSelectValueArr[0]} = ${objValue} ${leftSelectValueArr[0]}`;
+    rightValue.unshift(objValue);
+  });
+}
+addingRightCurrency();
+leftInput.value = 1; // начальное значение
 select.forEach((element) => {
   element.addEventListener(`click`, (e) => {
     // для левой колонки
@@ -70,99 +82,26 @@ select.forEach((element) => {
     addingRightCurrency();
   });
 });
-// функции добавления курса в колонки
-// для левой
-function addingLeftCurrency() {
-  getcurrencyLeft().then((value) => {
-    const objValue = value.rates;
-    const leftCurrency = document.querySelector(`.left-currency`);
-    leftCurrency.innerText = `1 ${leftSelectValueArr[0]} = ${Object.values(
-      objValue
-    )} ${rightSelectValueArr[0]}`;
-    // начальное значение для инпутов
-    const leftInput = document.querySelector(`.left`);
-    leftInput.value = `1`;
-    const rightInput = document.querySelector(`.right`);
-    rightInput.value = `${Object.values(objValue)}`;
-  });
-}
-addingLeftCurrency();
-// для правой
-function addingRightCurrency() {
-  getcurrencyRight().then((value) => {
-    const rightCurrency = document.querySelector(`.right-currency`);
-    const objValue = value.rates;
-    rightCurrency.innerText = `1 ${rightSelectValueArr[0]} = ${Object.values(
-      objValue
-    )} ${leftSelectValueArr[0]}`;
-  });
-}
-addingRightCurrency();
+
 //---------------------------------------
 // конвертация
-const form = document.querySelectorAll(`form input`);
-const leftInput = document.querySelector(`.left`);
-const rightInput = document.querySelector(`.right`);
-form.forEach((element) => {
-  // запрещаем вводить что либо кроме цифр,точки и запятой
-  element.addEventListener(`keydown`, (e) => {
-    if (!/^[0-9.,]$/.test(e.key) && e.key !== "Backspace") {
-      e.preventDefault();
-    }
-  });
-  //---------------------------------------
-  // конвертация на инпуте
-  element.addEventListener(`input`, (e) => {
-    if (e.target == leftInput) {
-      // если инпут ввода будет левым
-      getcurrencyLeft().then((value) => {
-        const objValue = value.rates;
-        rightInput.value = e.target.value * Object.values(objValue);
-      });
-    } else {
-      // если инпут будет правым
-      getcurrencyRight().then((value) => {
-        const objValue = value.rates;
-        leftInput.value = e.target.value * Object.values(objValue);
-      });
-    }
-    // меняем введенную пользователем запятую на точку
-    e.target.value = e.target.value.replace(",", ".");
-  });
-  // конвертация на фокусе инпута
-  element.addEventListener(`focus`, (e) => {
-    if (e.target == leftInput) {
-      // если инпут ввода будет левым
-      getcurrencyLeft().then((value) => {
-        const objValue = value.rates;
-        rightInput.value = e.target.value * Object.values(objValue);
-      });
-    } else {
-      // если инпут будет правым
-      getcurrencyRight().then((value) => {
-        const objValue = value.rates;
-        leftInput.value = e.target.value * Object.values(objValue);
-      });
-    }
-  });
-});
 
-//---------------------------------------
-//конвертация при изменении валюты
-leftSelect.forEach((element) => {
-  element.addEventListener(`click`, (e) => {
-    getcurrencyLeft().then((value) => {
-      const objValue = value.rates;
-      rightInput.value = leftInput.value * Object.values(objValue);
-    });
-  });
-});
+leftInput.oninput = () => {
+  validateInput(leftInput);
+  rightInput.value = leftInput.value * leftValue[0];
+};
 
-rightSelect.forEach((element) => {
-  element.addEventListener(`click`, (e) => {
-    getcurrencyRight().then((value) => {
-      const objValue = value.rates;
-      leftInput.value = rightInput.value * Object.values(objValue);
-    });
-  });
-});
+rightInput.oninput = () => {
+  validateInput(rightInput);
+  leftInput.value = rightInput.value * rightValue[0];
+};
+
+function validateInput(input) {
+  // Удаляем все символы, кроме цифр и запятых
+  input.value = input.value.replace(/[^0-9.,]/g, "");
+  input.value = input.value.replace(",", ".");
+  // Проверяем, есть ли уже точка в поле ввода
+  if (input.value.indexOf(".") !== input.value.lastIndexOf(".")) {
+    input.value = input.value.slice(0, -1);
+  }
+}
