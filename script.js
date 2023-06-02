@@ -1,5 +1,3 @@
-const leftInput = document.querySelector(`.left`);
-const rightInput = document.querySelector(`.right`);
 const select = document.querySelectorAll(`.select`);
 // получаю данные списка выбора валют
 const leftSelect = document.querySelectorAll(`.left-select li`);
@@ -14,7 +12,7 @@ leftSelect.forEach((element) => {
     leftSelectValueArr.unshift(newSelected.textContent); // добавляем элемент в начало массива
   });
 });
-
+// то же самое что и выше только для правой колонки
 const rightSelectValueArr = [`USD`];
 const rightSelect = document.querySelectorAll(`.right-select li`);
 rightSelect.forEach((element) => {
@@ -26,9 +24,7 @@ rightSelect.forEach((element) => {
     rightSelectValueArr.unshift(newSelected.textContent);
   });
 });
-
 //------------------------------------
-
 // функция получающая курс с сервера АПИ
 // для левого контейнера
 const getcurrency = async (a, b) => {
@@ -37,7 +33,6 @@ const getcurrency = async (a, b) => {
       `https://api.exchangerate.host/latest?base=${b}&symbols=${a}`
     );
     const data = await response.json();
-
     return data;
   } catch (err) {
     const errorMessage = document.createElement(`p`);
@@ -47,11 +42,12 @@ const getcurrency = async (a, b) => {
     parentElement.append(errorMessage);
   }
 };
-
 // функции добавления курса в колонки
 // для левой
 const leftValue = []; // массив для сохранение значений валюты левой колонки
 function addingLeftCurrency() {
+  const leftInput = document.querySelector(`.left`);
+  const rightInput = document.querySelector(`.right`);
   getcurrency(rightSelectValueArr[0], leftSelectValueArr[0]).then((value) => {
     const objValue = Object.values(value.rates);
     const leftCurrency = document.querySelector(`.left-currency`);
@@ -73,29 +69,18 @@ function addingRightCurrency() {
   });
 }
 addingRightCurrency();
-leftInput.value = 1; // начальное значение
+// вызываю функции добавления значений валют при клике на валюту
 select.forEach((element) => {
   element.addEventListener(`click`, (e) => {
     // для левой колонки
+
     addingLeftCurrency();
     // для правой колонки
     addingRightCurrency();
   });
 });
-
 //---------------------------------------
-// конвертация
-
-leftInput.oninput = () => {
-  validateInput(leftInput);
-  rightInput.value = leftInput.value * leftValue[0];
-};
-
-rightInput.oninput = () => {
-  validateInput(rightInput);
-  leftInput.value = rightInput.value * rightValue[0];
-};
-
+// проверка на ввод (вводятся только цифры точка и запятая)/ при этом запятая превращается в точку
 function validateInput(input) {
   // Удаляем все символы, кроме цифр и запятых
   input.value = input.value.replace(/[^0-9.,]/g, "");
@@ -105,3 +90,31 @@ function validateInput(input) {
     input.value = input.value.slice(0, -1);
   }
 }
+//-----------------------------------------
+// смена инпутов при клике
+const leftInput = document.querySelector(`.left`);
+const rightInput = document.querySelector(`.right`);
+// начальное значение
+leftInput.value = 1;
+rightInput.addEventListener(`click`, (e) => {
+  e.target.classList.remove(`right`);
+  leftInput.classList.remove(`left`);
+  e.target.classList.add(`left`);
+  leftInput.classList.add(`right`);
+});
+leftInput.addEventListener(`click`, (e) => {
+  e.target.classList.remove(`right`);
+  rightInput.classList.remove(`left`);
+  e.target.classList.add(`left`);
+  rightInput.classList.add(`right`);
+});
+//----------------------------------------
+// конвертация
+leftInput.oninput = () => {
+  validateInput(leftInput);
+  rightInput.value = leftInput.value * leftValue[0];
+};
+rightInput.oninput = () => {
+  validateInput(rightInput);
+  leftInput.value = rightInput.value * rightValue[0];
+};
