@@ -1,4 +1,8 @@
-const select = document.querySelectorAll(`.select`);
+const select = document.querySelectorAll(`.select`); // основные валюты
+const leftSelection = document.querySelector(`#selection-left`); // заменяемая основная валюта для левой части
+const leftsel = document.querySelector(`.selection-for-left`); // добавочные валюты из выпадающего списка для левой части
+const rightSelection = document.querySelector(`#selection-right`); // заменяемая основная валюта для правой части
+const rightsel = document.querySelector(`.selection-for-right`); // добавочные валюты из выпадающего списка для правой части
 // получаю данные списка выбора валют
 const leftSelect = document.querySelectorAll(`.left-select li`);
 const leftSelectValueArr = [`RUB`]; // массив с валютами выбранными пользователем: [0] элемент - последние что выбрал пользователь
@@ -12,6 +16,29 @@ leftSelect.forEach((element) => {
     leftSelectValueArr.unshift(newSelected.textContent); // добавляем элемент в начало массива
   });
 });
+//-------------------------------------
+// работа выпадающего списка
+// при наведении на заменяемую валюту
+leftSelection.addEventListener(`mouseover`, (e) => {
+  e.target.style = `display: none;`;
+  leftsel.style = `display: block;`;
+});
+// при изменении выпадающего списка
+leftsel.addEventListener(`change`, (e) => {
+  leftSelection.innerText = `${e.target.value}`; // меняется название заменяемой валюты на выбраную из списка
+  const selected = document.querySelector(`.left-selected`); // получаем элемент выбранный по умолчанию
+  selected.classList.remove(`left-selected`); // удаляется класс у элемента выбранного по умолчанию
+  leftSelection.classList.add(`left-selected`); // добавляется класс выбраного элемента на заменяемую
+  leftSelectValueArr.unshift(e.target.value); // выбраная валюта добовляется в массив
+  // вызываю функции добавления курса в колонки
+  addingLeftCurrency();
+  addingRightCurrency();
+});
+// при отведении мыши от заменяемой валюты
+leftsel.addEventListener(`mouseout`, (e) => {
+  e.target.style = `display: none;`;
+  leftSelection.style = `display: flex;`;
+});
 // то же самое что и выше только для правой колонки
 const rightSelectValueArr = [`USD`];
 const rightSelect = document.querySelectorAll(`.right-select li`);
@@ -23,6 +50,29 @@ rightSelect.forEach((element) => {
     const newSelected = document.querySelector(`.right-selected`);
     rightSelectValueArr.unshift(newSelected.textContent);
   });
+});
+//-------------------------------------
+// работа выпадающего списка
+// при наведении на заменяемую валюту
+rightSelection.addEventListener(`mouseover`, (e) => {
+  e.target.style = `display: none;`;
+  rightsel.style = `display: block;`;
+});
+// при изменении выпадающего списка
+rightsel.addEventListener(`change`, (e) => {
+  rightSelection.innerText = `${e.target.value}`; // меняется название заменяемой валюты на выбраную из списка
+  const selected = document.querySelector(`.right-selected`); // получаем элемент выбранный по умолчанию
+  selected.classList.remove(`right-selected`); // удаляется класс у элемента выбранного по умолчанию
+  rightSelection.classList.add(`right-selected`); // добавляется класс выбраного элемента на заменяемую
+  rightSelectValueArr.unshift(e.target.value); // выбраная валюта добовляется в массив
+  // вызываю функции добавления курса в колонки
+  addingLeftCurrency();
+  addingRightCurrency();
+});
+// при отведении мыши от заменяемой валюты
+rightsel.addEventListener(`mouseout`, (e) => {
+  e.target.style = `display: none;`;
+  rightSelection.style = `display: flex;`;
 });
 //------------------------------------
 // функция получающая курс с сервера АПИ

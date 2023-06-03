@@ -85,7 +85,7 @@ p {
     align-items: center;
     cursor: pointer;
 }
-.select :last-child {
+#selection-left, #selection-right {
     border: none;
 }
 .select  :hover{
@@ -119,4 +119,15 @@ input {
 .left-selected, .right-selected {
     background-color: #833AE0; 
     color: white !important;
+}
+.selection-for-left, .selection-for-right {
+    width: 25%;
+    height: 30px;
+    color: #C6C6C6;
+    font-size: calc(6px + 6 * ((100vw - 320px) / (1152 - 320)));
+    border: none;
+    display: none;
+}
+span {
+    color: #833AE0;
 }
