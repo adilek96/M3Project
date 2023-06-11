@@ -1,3 +1,37 @@
+// получение значений валют
+
+const getRates = async () => {
+  try {
+    const response = await fetch(`https://api.exchangerate.host/latest?`);
+    const data = await response.json();
+
+    return data;
+  } catch (err) {
+    const errorMessage = document.createElement(`p`);
+    const parentElement = document.querySelector(`section`);
+    errorMessage.innerText = `internet error`;
+    errorMessage.style = `color:red;`;
+    parentElement.append(errorMessage);
+  }
+};
+getRates().then((value) => {
+  const rates = Object.keys(value.rates);
+  const select = document.querySelectorAll(`select`);
+  select.forEach((element) => {
+    rates.forEach((e) => {
+      const option = document.createElement(`option`);
+      option.value = e;
+      option.textContent = e;
+      if (option.value == "GBP") {
+        option.setAttribute("selected", "selected");
+        console.log("yes");
+      }
+      element.append(option);
+    });
+  });
+});
+
+//--------------------------------------------------
 const select = document.querySelectorAll(`.select`); // основные валюты
 const leftSelection = document.querySelector(`#selection-left`); // заменяемая основная валюта для левой части
 const leftsel = document.querySelector(`.selection-for-left`); // добавочные валюты из выпадающего списка для левой части
@@ -168,3 +202,4 @@ rightInput.oninput = () => {
   validateInput(rightInput);
   leftInput.value = rightInput.value * rightValue[0];
 };
+//----------------------------------------
